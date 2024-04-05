@@ -47,6 +47,7 @@ jobs:
           username: ${{ secrets.NCLOUD_SERVER_USERNAME }}
           host: ${{ secrets.NCLOUD_SERVER_IP }}
           key: ${{ secrets.NCLOUD_SERVER_SSH_KEY }}
+          port: 22
           source: "./docker-compose.yml"
           target: "/home"
 
@@ -56,6 +57,7 @@ jobs:
           username: ${{ secrets.NCLOUD_SERVER_USERNAME }}
           host: ${{ secrets.NCLOUD_SERVER_IP }}
           key: ${{ secrets.NCLOUD_SERVER_SSH_KEY }}
+          port: 22
           source: "./docker-compose.yml"
           target: "/home"
 
@@ -65,6 +67,7 @@ jobs:
           username: ${{ secrets.NCLOUD_SERVER_USERNAME }}
           host: ${{ secrets.NCLOUD_SERVER_IP }}
           key: ${{ secrets.NCLOUD_SERVER_SSH_KEY }}
+          port: 22
           script: |
             sudo docker pull ${{ secrets.MAIN_DOCKER_REPOSITORY }}/${{ secrets.MAIN_DOCKER_IMAGE }}
             chmod 777 ./scripts/deploy.sh
