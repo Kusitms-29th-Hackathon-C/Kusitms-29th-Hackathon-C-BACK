@@ -52,7 +52,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.NCP_CONTAINER_REGISTRY }}/tag-name:latest
+          tags: ${{ secrets.NCP_CONTAINER_REGISTRY }}/${{ secrets.MAIN_DOCKER_IMAGE }}
           cache-from: type=registry,ref=${{ secrets.NCP_CONTAINER_REGISTRY }}/${{ secrets.MAIN_DOCKER_IMAGE }}
           cache-to: type=inline
 
