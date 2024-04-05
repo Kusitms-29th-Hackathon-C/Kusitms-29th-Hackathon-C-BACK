@@ -42,7 +42,7 @@ jobs:
           docker push ${{ secrets.MAIN_DOCKER_REPOSITORY }}/${{ secrets.MAIN_DOCKER_IMAGE }}
 
       - name: 🍀 deploy.sh 파일을 EC2 ncloud server로 전달
-        uses: appleboy/scp-action@master
+        uses: appleboy/ssh-action@master
         with:
           username: ${{ secrets.NCLOUD_SERVER_USERNAME }}
           host: ${{ secrets.NCLOUD_SERVER_IP }}
@@ -51,7 +51,7 @@ jobs:
           target: "/home"
 
       - name: 🍀 docker-compose.yml 파일을 ncloud server로 전송
-        uses: appleboy/scp-action@master
+        uses: appleboy/ssh-action@master
         with:
           username: ${{ secrets.NCLOUD_SERVER_USERNAME }}
           host: ${{ secrets.NCLOUD_SERVER_IP }}
