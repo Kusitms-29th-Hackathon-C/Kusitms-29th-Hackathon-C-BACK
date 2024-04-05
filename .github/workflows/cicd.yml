@@ -65,5 +65,7 @@ jobs:
           port: ${{ secrets.DEPLOYMENT_PORT }}
           script: |
             docker pull ${{ secrets.NCP_CONTAINER_REGISTRY }}/${{ secrets.MAIN_DOCKER_IMAGE }}
-            ./deploy.sh
+            docker stop $(docker ps -a -q)
+            docker rm $(docker ps -a -q)
+            docker run -d -p 8080:80 ${{ secrets.NCP_CONTAINER_REGISTRY }}/${{ secrets.MAIN_DOCKER_IMAGE }}
             docker image prune -f
