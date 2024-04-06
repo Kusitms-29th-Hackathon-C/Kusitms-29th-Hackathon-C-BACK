@@ -21,10 +21,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SummaryController {
     private final SummaryService summaryService;
-    @PostMapping("")
-    public BaseResponse<SummaryResponse> getSummary(@RequestBody SummaryRequest summaryRequest) throws IOException {
-        return new BaseResponse<>(summaryService.getSummary(summaryRequest));
-    }
 
     @PostMapping("/user")
     public BaseResponse<UserSummaryResponse> postUserSummary(@RequestBody UserSummaryRequest userSummaryRequest){

@@ -3,6 +3,9 @@ package com.back.kukertonc.domain.summary.entity;
 import com.back.kukertonc.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.sql.Timestamp;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -19,6 +22,8 @@ public class UserSummary {
     private int recommend;
     private String content;
     private boolean isComplete;
+    @CreationTimestamp
+    private Timestamp createAt;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
