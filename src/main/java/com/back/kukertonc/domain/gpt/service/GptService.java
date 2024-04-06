@@ -1,6 +1,6 @@
 package com.back.kukertonc.domain.gpt.service;
 
-import com.back.kukertonc.config.RestTemplateConfig;
+import com.back.kukertonc.global.config.RestTemplateConfig;
 import com.back.kukertonc.domain.gpt.dto.request.ChatCompletionDto;
 import com.back.kukertonc.domain.gpt.dto.request.ChatRequestMsgDto;
 import com.back.kukertonc.domain.gpt.dto.response.GptResponse;

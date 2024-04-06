@@ -1,6 +1,6 @@
-package com.back.kukertonc.reponse;
+package com.back.kukertonc.global.reponse;
 
-import com.back.kukertonc.reponse.status.ResponseStatus;
+import com.back.kukertonc.global.reponse.status.ResponseStatus;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Getter;
 

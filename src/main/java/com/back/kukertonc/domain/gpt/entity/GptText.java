@@ -7,9 +7,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
 @Builder
-@Document(collection = "gpt_code")
+@Document(collection = "gpt_text")
 public class GptText {
-    private Long gptId;
+    private Long writingId;
     private String content;
 }
 
