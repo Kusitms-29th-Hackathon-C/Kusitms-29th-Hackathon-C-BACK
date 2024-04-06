@@ -1,4 +1,4 @@
-package com.back.kukertonc.reponse.status;
+package com.back.kukertonc.global.reponse.status;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

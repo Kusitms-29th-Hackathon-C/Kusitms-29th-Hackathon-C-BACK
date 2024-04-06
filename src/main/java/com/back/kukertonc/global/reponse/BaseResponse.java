@@ -1,11 +1,10 @@
-package com.back.kukertonc.reponse;
+package com.back.kukertonc.global.reponse;
 
-import com.back.kukertonc.reponse.status.ResponseStatus;
+import com.back.kukertonc.global.reponse.status.BaseExceptionStatus;
+import com.back.kukertonc.global.reponse.status.ResponseStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Getter;
-
-import static com.back.kukertonc.reponse.status.BaseExceptionStatus.SUCCESS;
 
 
 @Getter
@@ -20,9 +19,9 @@ public class BaseResponse<T> implements ResponseStatus {
     private final T result;
 
     public BaseResponse(T result) {
-        this.code = SUCCESS.getCode();
-        this.status = SUCCESS.getStatus();
-        this.message = SUCCESS.getMessage();
+        this.code = BaseExceptionStatus.SUCCESS.getCode();
+        this.status = BaseExceptionStatus.SUCCESS.getStatus();
+        this.message = BaseExceptionStatus.SUCCESS.getMessage();
         this.result = result;
     }
 
