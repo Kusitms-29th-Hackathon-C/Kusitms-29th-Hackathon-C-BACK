@@ -1,5 +1,7 @@
 package com.back.kukertonc.domain.summary.service;
 
+import com.back.kukertonc.domain.gpt.entity.GptText;
+import com.back.kukertonc.domain.gpt.repository.GptTextRepository;
 import com.back.kukertonc.domain.summary.dto.*;
 import com.back.kukertonc.domain.summary.entity.UserSummary;
 import com.back.kukertonc.domain.summary.entity.Writing;
@@ -18,6 +20,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -34,12 +37,30 @@ public class SummaryService {
     private final UserSummaryRepository userSummaryRepository;
     private final UserRepository userRepository;
     private final WritingRepository writingRepository;
+    private final GptTextRepository gptTextRepository;
 
     private final RestTemplate restTemplate;
 
+    public UserSummaryResponse postUserSummary(UserSummaryRequest userSummaryRequest) {
+        Long userId = userSummaryRequest.getUserId();
+        Long writingId = userSummaryRequest.getWritingId();
 
-    public SummaryResponse getSummary(SummaryRequest summaryRequest) {
-        String contents = summaryRequest.getContents();
+        User user = userRepository.findById(userId).get();
+        Writing writing = writingRepository.findById(writingId).get();
+
+        UserSummary userSummary = UserSummary.of(
+                0,
+                userSummaryRequest.getMySummary(),
+                true,
+                user,
+                writing
+        );
+
+        userSummaryRepository.save(userSummary);
+
+        GptText gptText = gptTextRepository.findByWritingId(writingId);
+        String contents = gptText.getContent();
+
         contents = contents.replace("\n", "");
         // 요청할 데이터를 정의합니다.
         String requestBody = "{\"document\": {\"content\": \"";
@@ -65,37 +86,20 @@ public class SummaryService {
         String summaryResult = resultSlice[resultSlice.length -1].replace("\"", "");
         summaryResult = summaryResult.replace("}", "");
 
-        return SummaryResponse.of(summaryResult);
-    }
-
-    public UserSummaryResponse postUserSummary(UserSummaryRequest userSummaryRequest) {
-        Long userId = userSummaryRequest.getUserId();
-        Long writingId = userSummaryRequest.getWritingId();
-
-        User user = userRepository.findById(userId).get();
-        Writing writing = writingRepository.findById(writingId).get();
-
-        UserSummary userSummary = UserSummary.of(
-                0,
-                userSummaryRequest.getSummary(),
-                true,
-                user,
-                writing
-        );
-
-        userSummaryRepository.save(userSummary);
-
-
         List<UserSummary> userSummaryList = userSummaryRepository.findTop3ByWritingOrderByCreateAt(writing);
-        List<Others> othersList = null;
+        List<Others> othersList = new ArrayList<>();
         for(UserSummary us : userSummaryList){
-            if(!Objects.equals(us.getUser().getId(), userId)){
+            if(us.getUser().getId() != userId){
                 Others others = Others.of(us.getUser().getName(), us.getContent());
-                othersList.add(others);
+                try {
+                    othersList.add(others);
+                }catch (NullPointerException e){
+                    break;
+                }
             }
         }
 
 
-        return UserSummaryResponse.of(isComplete);
+        return UserSummaryResponse.of(summaryResult, othersList);
     }
 }

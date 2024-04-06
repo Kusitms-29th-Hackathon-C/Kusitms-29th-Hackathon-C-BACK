@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 public class UserSummaryRequest {
     private Long userId;
     private Long writingId;
-    private String summary;
+    private String mySummary;
 }
