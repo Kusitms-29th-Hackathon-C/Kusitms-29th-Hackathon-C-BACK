@@ -18,5 +18,16 @@ public class Writing extends BaseTimeEntity {
     private Long id;
     private String title;
     private String level;
+    private String type;
+    private String keyword;
 
+    public static Writing createWriting(String title, String level, String type, String keyword){
+        return Writing.builder()
+                .id(null)
+                .title(title)
+                .level(level)
+                .type(type)
+                .keyword(keyword)
+                .build();
+    }
 }
