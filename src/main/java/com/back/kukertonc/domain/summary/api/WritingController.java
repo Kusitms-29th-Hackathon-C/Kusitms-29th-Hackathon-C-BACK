@@ -26,7 +26,7 @@ public class WritingController {
         return new ResponseEntity<>(writingInfoResponses, HttpStatus.OK);
     }
     @GetMapping("/get")
-    public ResponseEntity<String> getContent(@RequestParam(name = "writingId") Long writingId){
+    public ResponseEntity<String> getContent(@RequestParam(name = "writingId") String writingId){
         String content = writingService.getContent(writingId);
         return new ResponseEntity<>(content, HttpStatus.OK);
     }

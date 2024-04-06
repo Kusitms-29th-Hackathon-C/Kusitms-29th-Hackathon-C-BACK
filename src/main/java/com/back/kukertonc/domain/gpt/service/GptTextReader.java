@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class GptTextReader {
     private final GptTextRepository gptTextRepository;
-    public GptText getContent(Long writingId){
+    public GptText getContent(String writingId){
         return gptTextRepository.findByWritingId(writingId);
     }
 }
