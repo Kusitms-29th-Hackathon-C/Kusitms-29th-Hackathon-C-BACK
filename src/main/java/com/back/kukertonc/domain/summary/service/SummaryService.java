@@ -1,6 +1,15 @@
 package com.back.kukertonc.domain.summary.service;
 
 import com.back.kukertonc.domain.summary.dto.*;
+import com.back.kukertonc.domain.summary.entity.UserSummary;
+import com.back.kukertonc.domain.summary.entity.Writing;
+import com.back.kukertonc.domain.summary.repository.UserSummaryRepository;
+import com.back.kukertonc.domain.summary.repository.WritingRepository;
+import com.back.kukertonc.domain.user.entity.User;
+import com.back.kukertonc.domain.user.repository.UserRepository;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -12,6 +21,7 @@ import java.net.URI;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class SummaryService {
     @Value("${clova.summary.client-id}")
     private String clientId;
@@ -19,12 +29,12 @@ public class SummaryService {
     private String clientSecret;
     @Value("${clova.summary.url}")
     private String url;
+    private final UserSummaryRepository userSummaryRepository;
+    private final UserRepository userRepository;
+    private final WritingRepository writingRepository;
 
     private final RestTemplate restTemplate;
 
-    public SummaryService(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
 
     public SummaryResponse getSummary(SummaryRequest summaryRequest) {
         String contents = summaryRequest.getContents();
@@ -54,5 +64,27 @@ public class SummaryService {
         summaryResult = summaryResult.replace("}", "");
 
         return SummaryResponse.of(summaryResult);
+    }
+
+    public UserSummaryResponse postUserSummary(UserSummaryRequest userSummaryRequest) {
+        Long userId = userSummaryRequest.getUserId();
+        Long writingId = userSummaryRequest.getWritingId();
+
+        User user = userRepository.findById(userId).get();
+        Writing writing = writingRepository.findById(writingId).get();
+
+        Boolean isComplete = userSummaryRequest.getIsComplete();
+
+        UserSummary userSummary = UserSummary.of(
+                0,
+                userSummaryRequest.getSummary(),
+                isComplete,
+                user,
+                writing
+        );
+
+        userSummaryRepository.save(userSummary);
+
+        return UserSummaryResponse.of(isComplete);
     }
 }
