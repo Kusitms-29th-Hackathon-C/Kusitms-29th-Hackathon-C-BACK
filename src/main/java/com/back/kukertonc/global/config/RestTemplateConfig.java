@@ -1,5 +1,6 @@
 package com.back.kukertonc.global.config;
 
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
@@ -32,3 +33,4 @@ public class RestTemplateConfig {
                 .build();
     }
 }
+
