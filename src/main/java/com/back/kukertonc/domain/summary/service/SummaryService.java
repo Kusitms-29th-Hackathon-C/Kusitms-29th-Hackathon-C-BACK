@@ -89,7 +89,7 @@ public class SummaryService {
         List<UserSummary> userSummaryList = userSummaryRepository.findTop3ByWritingOrderByCreateAt(writing);
         List<Others> othersList = new ArrayList<>();
         for(UserSummary us : userSummaryList){
-            if(us.getUser().getId() != userId){
+            if((us.getUser().getId() != userId) && (us.isComplete())){
                 Others others = Others.of(us.getUser().getName(), us.getContent());
                 try {
                     othersList.add(others);
@@ -101,5 +101,25 @@ public class SummaryService {
 
 
         return UserSummaryResponse.of(summaryResult, othersList);
+    }
+
+    public TempResponse postUserTemp(UserSummaryRequest userSummaryRequest) {
+        Long userId = userSummaryRequest.getUserId();
+        Long writingId = userSummaryRequest.getWritingId();
+
+        User user = userRepository.findById(userId).get();
+        Writing writing = writingRepository.findById(writingId).get();
+
+        UserSummary userSummary = UserSummary.of(
+                0,
+                userSummaryRequest.getMySummary(),
+                false,
+                user,
+                writing
+        );
+
+        userSummaryRepository.save(userSummary);
+
+        return TempResponse.of("임시저장 완료");
     }
 }
