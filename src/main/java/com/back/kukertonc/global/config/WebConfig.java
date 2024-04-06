@@ -11,7 +11,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("https://kusithms-29th-hackathon-c-front.vercel.app", "https://vercel.com/kukathon", "https://kukathon.netlify.app")
+                .allowedOrigins("http://localhost:3000", "https://kusithms-29th-hackathon-c-front.vercel.app", "https://vercel.com/kukathon", "https://kukathon.netlify.app")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH")
                 .allowCredentials(true);
     }

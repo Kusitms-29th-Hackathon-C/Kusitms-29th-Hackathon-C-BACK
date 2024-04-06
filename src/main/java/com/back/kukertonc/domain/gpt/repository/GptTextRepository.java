@@ -8,5 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 @EnableMongoRepositories
 public interface GptTextRepository extends MongoRepository<GptText, String> {
-    GptText findByWritingId(Long Id);
+
+    GptText findByWritingId(Long writingId);
+
 }
