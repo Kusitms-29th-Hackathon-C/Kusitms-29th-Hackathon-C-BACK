@@ -1,9 +1,6 @@
 package com.back.kukertonc.domain.summary.api;
 
-import com.back.kukertonc.domain.summary.dto.SummaryRequest;
-import com.back.kukertonc.domain.summary.dto.SummaryResponse;
-import com.back.kukertonc.domain.summary.dto.UserSummaryRequest;
-import com.back.kukertonc.domain.summary.dto.UserSummaryResponse;
+import com.back.kukertonc.domain.summary.dto.*;
 import com.back.kukertonc.domain.summary.service.SummaryService;
 import com.back.kukertonc.global.reponse.BaseResponse;
 import lombok.RequiredArgsConstructor;
@@ -25,5 +22,10 @@ public class SummaryController {
     @PostMapping("/user")
     public BaseResponse<UserSummaryResponse> postUserSummary(@RequestBody UserSummaryRequest userSummaryRequest){
         return new BaseResponse<>(summaryService.postUserSummary(userSummaryRequest));
+    }
+
+    @PostMapping("/temp")
+    public BaseResponse<TempResponse> postUserTemp(@RequestBody UserSummaryRequest userSummaryRequest){
+        return new BaseResponse<>(summaryService.postUserTemp(userSummaryRequest));
     }
 }
