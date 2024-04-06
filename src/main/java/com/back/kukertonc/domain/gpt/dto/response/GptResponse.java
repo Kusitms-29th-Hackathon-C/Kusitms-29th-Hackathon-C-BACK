@@ -7,6 +7,12 @@ import java.util.List;
 @Builder
 @Getter
 public class GptResponse {
-    private List<String> words;
-
+    private String title;
+    private String content;
+    public static GptResponse of(String title, String content){
+        return GptResponse.builder()
+                .title(title)
+                .content(content)
+                .build();
+    }
 }

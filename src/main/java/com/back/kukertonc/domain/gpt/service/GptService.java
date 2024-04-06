@@ -3,6 +3,7 @@ package com.back.kukertonc.domain.gpt.service;
 import com.back.kukertonc.config.RestTemplateConfig;
 import com.back.kukertonc.domain.gpt.dto.request.ChatCompletionDto;
 import com.back.kukertonc.domain.gpt.dto.request.ChatRequestMsgDto;
+import com.back.kukertonc.domain.gpt.dto.response.GptResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,7 +36,7 @@ public class GptService {
     @Value("${openai.url.prompt}")
     private String promptUrl;
 
-    public  List<String>  prompt() throws IOException {
+    public  List<String>  prompt(String type) throws IOException {
         String[] contents;
         List<String> words = new ArrayList<>();
         Map<String, Object> resultMap = new HashMap<>();
@@ -44,7 +45,7 @@ public class GptService {
         HttpHeaders headers = restTemplateConfig.httpHeaders();
         List<ChatRequestMsgDto> messages = new ArrayList<>();
 
-        String prompt = readPromptFromFile();
+        String prompt = readPromptFromFile(type);
         messages.add(createChatRequestMsgDto("user", prompt));
 
 
@@ -80,12 +81,70 @@ public class GptService {
 
         return words;
     }
+    public GptResponse getText(String type) throws IOException {
+        String title;
+        String firstLine = "";
+        String remainingLines="";
+        Map<String, Object> resultMap = new HashMap<>();
 
-    private String readPromptFromFile() throws IOException {
-        ClassPathResource resource;
+        // [STEP1] 토큰 정보가 포함된 Header를 가져옵니다.
+        HttpHeaders headers = restTemplateConfig.httpHeaders();
+        List<ChatRequestMsgDto> messages = new ArrayList<>();
 
+        String prompt = readPromptFromFile(type);
+        messages.add(createChatRequestMsgDto("user", prompt));
+
+
+
+        messages.get(0).setContent(prompt);
+        // [STEP5] 통신을 위한 RestTemplate을 구성합니다.
+        HttpEntity<ChatCompletionDto> requestEntity = new HttpEntity<>(createChatCompletionDto("gpt-4", messages), headers);
+        ResponseEntity<String> response = chatGPTConfig
+                .exchange(promptUrl, HttpMethod.POST, requestEntity, String.class);
+
+        // [STEP6] String -> HashMap 역직렬화를 구성합니다.
+        ObjectMapper om = new ObjectMapper();
+        resultMap = om.readValue(response.getBody(), new TypeReference<>() {
+        });
+        // 데이터 추출 및 저장
+        if (resultMap.containsKey("choices")) {
+            List<Map<String, Object>> choices = (List<Map<String, Object>>) resultMap.get("choices");
+            for (Map<String, Object> choice : choices) {
+                Map<String, Object> message = (Map<String, Object>) choice.get("message");
+                if (message.containsKey("content")) {
+                    String content = (String) message.get("content");
+                    String[] lines = content.split("\\r?\\n", 2);
+
+                    firstLine = lines[0];
+                    remainingLines = "";
+
+                    if (lines.length > 1) {
+                        remainingLines = lines[1];
+                    }
+                    if (firstLine.startsWith("제목 : ")) {
+                        firstLine = firstLine.substring(5); // "제목 : " 부분 제거
+                    }
+
+                    if (lines.length > 1) {
+                        remainingLines = lines[1];
+                        if (remainingLines.startsWith("\n내용 : ")) {
+                            remainingLines = remainingLines.substring(5); // "내용 : " 부분 제거
+                        }
+                    }
+                }
+            }
+        }
+
+        return GptResponse.of(firstLine, remainingLines);
+    }
+
+    private String readPromptFromFile(String type) throws IOException {
+        ClassPathResource resource = null;
+            
+        if(type.equals("word"))
             resource = new ClassPathResource("prompts/word.txt");
-
+        if(type.equals("text"))
+            resource = new ClassPathResource("prompts/LongText.txt");
             byte[] bytes = FileCopyUtils.copyToByteArray(resource.getInputStream());
             return new String(bytes, StandardCharsets.UTF_8);
 
