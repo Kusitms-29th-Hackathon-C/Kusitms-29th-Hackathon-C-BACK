@@ -266,4 +266,6 @@ public class GptService {
         }
         return GptResponse.of(firstLine, remainingLines);
     }
+
+
 }
