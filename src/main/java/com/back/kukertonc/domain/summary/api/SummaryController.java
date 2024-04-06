@@ -28,4 +28,6 @@ public class SummaryController {
     public BaseResponse<TempResponse> postUserTemp(@RequestBody UserSummaryRequest userSummaryRequest){
         return new BaseResponse<>(summaryService.postUserTemp(userSummaryRequest));
     }
+
+
 }
