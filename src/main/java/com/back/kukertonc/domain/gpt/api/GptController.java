@@ -1,6 +1,7 @@
 package com.back.kukertonc.domain.gpt.api;
 
 import com.back.kukertonc.domain.gpt.dto.request.ChatCompletionDto;
+import com.back.kukertonc.domain.gpt.dto.response.GptResponse;
 import com.back.kukertonc.domain.gpt.service.GptService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,12 @@ public class GptController {
     private final GptService gptService;
     @GetMapping("/prompt")
     public ResponseEntity< List<String> > selectPrompt() throws IOException {
-        List<String> result = gptService.prompt();
+        List<String> result = gptService.prompt("word");
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+    @GetMapping("/text")
+    public ResponseEntity< GptResponse > getLongText() throws IOException {
+        GptResponse result = gptService.getText("text");
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
