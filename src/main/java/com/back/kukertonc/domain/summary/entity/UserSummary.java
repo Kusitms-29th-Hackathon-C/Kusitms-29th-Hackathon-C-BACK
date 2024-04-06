@@ -25,4 +25,21 @@ public class UserSummary {
     @ManyToOne
     @JoinColumn(name = "writing_id")
     private Writing writing;
+
+
+    public static UserSummary of(
+        int recommend,
+        String content,
+        boolean isComplete,
+        User user,
+        Writing writing
+    ){
+        return UserSummary.builder()
+                .recommend(recommend)
+                .content(content)
+                .isComplete(isComplete)
+                .user(user)
+                .writing(writing)
+                .build();
+    }
 }
