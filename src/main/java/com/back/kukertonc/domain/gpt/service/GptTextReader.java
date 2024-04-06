@@ -7,10 +7,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class GptTextAppender {
+public class GptTextReader {
     private final GptTextRepository gptTextRepository;
-
-    public GptText save(GptText gptText){
-        return gptTextRepository.save(gptText);
+    public GptText getContent(Long writingId){
+        return gptTextRepository.findByWritingId(writingId);
     }
 }
