@@ -18,6 +18,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -73,17 +75,26 @@ public class SummaryService {
         User user = userRepository.findById(userId).get();
         Writing writing = writingRepository.findById(writingId).get();
 
-        Boolean isComplete = userSummaryRequest.getIsComplete();
-
         UserSummary userSummary = UserSummary.of(
                 0,
                 userSummaryRequest.getSummary(),
-                isComplete,
+                true,
                 user,
                 writing
         );
 
         userSummaryRepository.save(userSummary);
+
+
+        List<UserSummary> userSummaryList = userSummaryRepository.findTop3ByWritingOrderByCreateAt(writing);
+        List<Others> othersList = null;
+        for(UserSummary us : userSummaryList){
+            if(!Objects.equals(us.getUser().getId(), userId)){
+                Others others = Others.of(us.getUser().getName(), us.getContent());
+                othersList.add(others);
+            }
+        }
+
 
         return UserSummaryResponse.of(isComplete);
     }

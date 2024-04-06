@@ -26,6 +26,11 @@ public class SummaryController {
         return new BaseResponse<>(summaryService.getSummary(summaryRequest));
     }
 
+//    @PostMapping("/user")
+//    public BaseResponse<UserSummaryResponse> postUserSummary(@RequestBody UserSummaryRequest userSummaryRequest){
+//        return new BaseResponse<>(summaryService.postUserSummary(userSummaryRequest));
+//    }
+
     @PostMapping("/user")
     public BaseResponse<UserSummaryResponse> postUserSummary(@RequestBody UserSummaryRequest userSummaryRequest){
         return new BaseResponse<>(summaryService.postUserSummary(userSummaryRequest));
