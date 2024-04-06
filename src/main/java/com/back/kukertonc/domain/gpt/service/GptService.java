@@ -4,7 +4,6 @@ import com.back.kukertonc.config.RestTemplateConfig;
 import com.back.kukertonc.domain.gpt.dto.request.ChatCompletionDto;
 import com.back.kukertonc.domain.gpt.dto.request.ChatRequestMsgDto;
 import com.back.kukertonc.domain.gpt.dto.response.GptResponse;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -142,9 +141,9 @@ public class GptService {
         ClassPathResource resource = null;
             
         if(type.equals("word"))
-            resource = new ClassPathResource("prompts/word.txt");
+            resource = new ClassPathResource("src/prompts/word.txt");
         if(type.equals("text"))
-            resource = new ClassPathResource("prompts/LongText.txt");
+            resource = new ClassPathResource("src/prompts/LongText.txt");
             byte[] bytes = FileCopyUtils.copyToByteArray(resource.getInputStream());
             return new String(bytes, StandardCharsets.UTF_8);
 
