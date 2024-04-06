@@ -15,7 +15,7 @@ public class WritingService {
         return writingReader.getWritingAll().stream().map(writing ->
                 WritingInfoResponse.of(
                 writing,
-                userSummaryReader.getUserSummaryWithWritingId(writing.getId()).isComplete()
+                userSummaryReader.getUserSummaryIsCompleteWithWritingId(writing.getId())
                 )).toList();
     }
 }
