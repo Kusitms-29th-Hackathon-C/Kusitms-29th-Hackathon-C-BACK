@@ -1,6 +1,7 @@
 package com.back.kukertonc.domain.gpt.api;
 
 import com.back.kukertonc.domain.gpt.dto.request.ChatCompletionDto;
+import com.back.kukertonc.domain.gpt.dto.request.WritingRequestDto;
 import com.back.kukertonc.domain.gpt.dto.response.GptResponse;
 import com.back.kukertonc.domain.gpt.service.GptService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -25,9 +26,19 @@ public class GptController {
         List<String> result = gptService.prompt("word");
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-    @GetMapping("/text")
-    public ResponseEntity< GptResponse > getLongText() throws IOException {
-        GptResponse result = gptService.getText("text");
+    @GetMapping("/text/1")
+    public ResponseEntity< List<GptResponse> > getLongText() throws IOException {
+        List<GptResponse> result = gptService.getTextArt();
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+    @GetMapping("/text/2")
+    public ResponseEntity< List<GptResponse> > getLongTextCulture() throws IOException {
+        List<GptResponse> result = gptService.getTextCulture("text");
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+    @GetMapping("/text/3")
+    public ResponseEntity< List<GptResponse> > getLongTextTech() throws IOException {
+        List<GptResponse> result = gptService.getTextTech();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
