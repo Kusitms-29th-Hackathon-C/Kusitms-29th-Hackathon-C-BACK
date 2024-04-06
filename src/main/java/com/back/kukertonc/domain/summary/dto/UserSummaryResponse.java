@@ -5,16 +5,22 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.print.attribute.standard.MediaSize;
+import java.util.List;
+
 @Getter
 @Builder
 public class UserSummaryResponse {
-    private Boolean isComplete;
+    private String summary;
+    private List<Others> others;
 
     public static UserSummaryResponse of(
-            Boolean isComplete
+            String summary,
+            List<Others> others
     ){
         return UserSummaryResponse.builder()
-                .isComplete(isComplete)
+                .summary(summary)
+                .others(others)
                 .build();
     }
 }

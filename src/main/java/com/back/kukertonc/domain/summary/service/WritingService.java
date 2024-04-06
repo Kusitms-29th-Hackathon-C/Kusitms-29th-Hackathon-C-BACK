@@ -28,7 +28,7 @@ public class WritingService {
 
         return writingResponses;
     }
-    public String getContent(String writingId){
+    public String getContent(Long writingId){
         return gptTextReader.getContent(writingId).getContent();
     }
 }

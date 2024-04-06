@@ -13,12 +13,9 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Document(collection = "gpt_text")
 public class GptText {
 
-    @BsonId
-    private ObjectId id;
-    @Field(name = "writingId")
-    private String writingId;
+    private Long writingId;
     private String content;
-    public static GptText createGptText(String writingId, String content){
+    public static GptText createGptText(Long writingId, String content){
         return  GptText.builder()
                 .writingId(writingId)
                 .content(content)

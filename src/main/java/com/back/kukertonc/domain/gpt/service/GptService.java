@@ -111,7 +111,7 @@ public class GptService {
 
             GptResponse gptResponse = getText(resultMap);
             gptResponses.add(gptResponse);
-            gptTextAppender.save(GptText.createGptText(String.valueOf(writingAppender.save(Writing.createWriting(gptResponse.getTitle(),keyword.getLevel(), "사회 문화",keyword.getKeyword() )).getId()),gptResponse.getContent()));
+            gptTextAppender.save(GptText.createGptText(writingAppender.save(Writing.createWriting(gptResponse.getTitle(),keyword.getLevel(), "사회 문화",keyword.getKeyword() )).getId(),gptResponse.getContent()));
         }
 
         return gptResponses;
@@ -138,7 +138,7 @@ public class GptService {
 
             GptResponse gptResponse = getText(resultMap);
             gptResponses.add(gptResponse);
-            gptTextAppender.save(GptText.createGptText(String.valueOf(writingAppender.save(Writing.createWriting(gptResponse.getTitle(),keyword.getLevel(), "과학 기술",keyword.getKeyword() )).getId()),gptResponse.getContent()));
+            gptTextAppender.save(GptText.createGptText(writingAppender.save(Writing.createWriting(gptResponse.getTitle(),keyword.getLevel(), "과학 기술",keyword.getKeyword() )).getId(),gptResponse.getContent()));
         }
 
         return gptResponses;
@@ -165,7 +165,7 @@ public class GptService {
 
             GptResponse gptResponse = getText(resultMap);
             gptResponses.add(gptResponse);
-            gptTextAppender.save(GptText.createGptText(String.valueOf(writingAppender.save(Writing.createWriting(gptResponse.getTitle(),keyword.getLevel(), "인문 예술",keyword.getKeyword() )).getId()),gptResponse.getContent()));
+            gptTextAppender.save(GptText.createGptText(writingAppender.save(Writing.createWriting(gptResponse.getTitle(),keyword.getLevel(), "인문 예술",keyword.getKeyword() )).getId(),gptResponse.getContent()));
         }
 
         return gptResponses;
