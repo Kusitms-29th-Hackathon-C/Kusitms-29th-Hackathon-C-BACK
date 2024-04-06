@@ -1,4 +1,4 @@
-package com.back.kukertonc.reponse.status;
+package com.back.kukertonc.global.reponse.status;
 
 public interface ResponseStatus {
     int getCode();

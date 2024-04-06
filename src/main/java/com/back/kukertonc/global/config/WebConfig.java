@@ -1,4 +1,4 @@
-package com.back.kukertonc.config;
+package com.back.kukertonc.global.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
