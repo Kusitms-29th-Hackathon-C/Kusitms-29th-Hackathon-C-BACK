@@ -18,6 +18,6 @@ public class KeywordContent {
     private Long id;
     private String word;
     @ManyToOne
-    @JoinColumn(name = "keyword_content_id")
-    private KeywordContent keywordContent;
+    @JoinColumn(name = "keyword_id")
+    private Keyword keyword;
 }
