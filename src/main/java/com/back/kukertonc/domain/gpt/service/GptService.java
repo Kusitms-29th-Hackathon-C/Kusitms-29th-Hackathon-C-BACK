@@ -144,8 +144,8 @@ public class GptService {
             resource = new ClassPathResource("src/prompts/word.txt");
         if(type.equals("text"))
             resource = new ClassPathResource("src/prompts/LongText.txt");
-            byte[] bytes = FileCopyUtils.copyToByteArray(resource.getInputStream());
-            return new String(bytes, StandardCharsets.UTF_8);
+        byte[] bytes = FileCopyUtils.copyToByteArray(resource.getInputStream());
+        return new String(bytes, StandardCharsets.UTF_8);
 
     }
 }
